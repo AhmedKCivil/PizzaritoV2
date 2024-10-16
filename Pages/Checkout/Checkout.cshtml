@@ -1,0 +1,37 @@
+﻿@page
+@model PizzaritoShop.Pages.Checkout.CheckoutModel
+@{
+}
+
+<h2>Your Order</h2>
+
+@{
+    var imagePath = Model.ImageTitle;
+
+}
+
+<div class="text-center container">
+    <div class="mainText">
+        <div class="col-12">
+          <img src=@imagePath class="w-100" asp-append-version="true"/>
+            <p>Your order for the @Model.PizzaName Pizza is ready!</p>
+            <p>The total Price is: @Model.PizzaPrice</p>
+            
+            <a class="btn btn-primary" asp-page="/Checkout/CustomerDetails" 
+            asp-route-PizzaName="@Model.PizzaName" 
+            asp-route-PizzaPrice="@Model.PizzaPrice" 
+            asp-route-ImageTitle="@Model.ImageTitle">Confirm order</a>
+
+@*             <a class="btn btn-primary" asp-area="" asp-page="/Checkout/CustomerDetails">Confirm order</a>
+ *@
+
+
+@*             <a class="btn btn-primary" asp-area="" asp-page="ThankYou">Confirm order</a>
+ *@
+        </div>
+
+
+    </div>
+
+
+</div>

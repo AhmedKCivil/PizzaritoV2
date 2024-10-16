@@ -1,0 +1,55 @@
+﻿@page
+@model PizzaritoShop.Pages.Cart.CartModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h2 class="my-4">Your Shopping Cart</h2>
+
+    @if (Model.Cart != null && Model.Cart.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Pizza Name</th>
+                    <th>Quantity</th>
+                    <th>Price per Pizza</th>
+                    <th>Total Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Cart)
+                {
+                    <tr>
+                        <td>@item.PizzaName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.PizzaPrice.ToString("c")</td>
+                        <td>@((item.PizzaPrice * item.Quantity).ToString("c"))</td>
+                        <td>
+                            <form method="post" asp-page-handler="Remove" asp-route-id="@item.PizzaId">
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="text-right">
+            <h4>Total: @Model.Cart.Sum(i => i.PizzaPrice * i.Quantity).ToString("c")</h4>
+
+            <a class="btn btn-success" asp-page="/Checkout/CustomerDetails"
+               asp-route-pizzaName="@Model.Cart.FirstOrDefault()?.PizzaName"
+               asp-route-TotalPrice="@Model.TotalPrice">Proceed to Checkout</a>
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning" role="alert">
+            Your cart is empty.
+        </div>
+    }
+</div>

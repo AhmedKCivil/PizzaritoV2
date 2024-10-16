@@ -1,0 +1,65 @@
+﻿@page
+@model PizzaritoShop.Pages.Pizzas.PizzaModel
+@{
+}
+
+<div class="text-center">
+    <div class="mainText">
+        <a class="btn btn-success float-right" asp-page="/Pizzas/Create">
+            <i class="bi-bi list-group-item-action"></i> + Add New Pizza
+        </a>
+
+
+        <h1>Your Pizza, Your Way</h1>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <a asp-page="/Forms/CustomPizza">
+                        <img src="~/Images/CreateYourOwn.png" class="card-img-top" alt="Create Your Own Pizza" />
+                    </a>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Create Your Own Pizza</h5>
+                        <p class="card-text">From £6.95</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Loop through each pizza in the model to create a card for each -->
+            @foreach (var pizza in Model.Pizzas)
+            {
+                var imagePath = pizza.ImageTitle;
+
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <!-- Display the pizza image -->
+                        <img src="@imagePath" class="card-img-top" alt="@pizza.ImageTitle" />
+
+                        <div class="card-body text-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">@pizza.PizzaName</h5>
+
+                                <!-- Form to submit the selected pizza -->
+                                <form method="post">
+                                    <input type="hidden" name="imageTitle" value="@pizza.ImageTitle" />
+                                    <input type="hidden" name="pizzaName" value="@pizza.PizzaName" />
+                                    <input type="hidden" name="pizzaPrice" value="@pizza.Price" />
+
+                                    <button type="submit" class="btn btn-success">Add To Cart</button>
+                                </form>
+                            </div>
+                            <p class="card-text">Price: £@pizza.Price</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

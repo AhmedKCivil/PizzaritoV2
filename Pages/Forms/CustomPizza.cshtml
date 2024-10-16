@@ -1,0 +1,38 @@
+﻿@* @page
+@model PizzaritoShop.Pages.Forms.CustomPizzaModel
+@{
+}
+
+
+
+<div class="text-center container">
+    <h2>Please Custom your Pizza here on this Page</h2>
+    <form method="post" class="mx-auto mt-5 mb-5 px-5 pt-5 pb-5 rounded-5 bg-light col-4">
+        <input type="text" asp-for="Pizza.PizzaName"
+        placeholder="Give your Pizza a Name.."
+        />
+        <br />
+        <!-- find why its Pizza.TomatoSauce-->
+        <input type="checkbox" asp-for="Pizza.TomatoSauce" 
+        placeholder="TomatoSauce" /> "Tomato Sauce"
+        <br />
+        <input type="checkbox" asp-for="Pizza.Cheese"
+        placeholder="Cheese" /> "Cheese"
+        <br />
+        <input type="checkbox" asp-for="Pizza.Mushroom"
+        placeholder="Mushroom" /> "Mushroom"
+        <br />
+        <input type="checkbox" asp-for="Pizza.Pineapple"
+        placeholder="Pineapple" /> "Pineapple"
+        <br />
+        <br />
+
+         <button class="btn btn-primary" type="submit">Order Pizza</button>
+
+    </form>
+
+
+
+
+
+</div>  *@
