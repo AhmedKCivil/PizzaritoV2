@@ -22,6 +22,9 @@ namespace PizzaritoShop.Data
         {
             modelBuilder.Entity<CartItem>()
                 .HasNoKey();  // This makes it a keyless entity
+
+
+            
         }
 
         //If CartItem is not meant to be saved as a separate table in the database(and you're using it only for

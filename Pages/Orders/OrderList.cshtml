@@ -35,12 +35,19 @@
 
                         <!-- Display list of pizzas with quantities and prices -->
                         <ul class="list-group mb-4">
-                            @foreach (var item in Model.CartItems)
-                            {
-                                <li class="list-group-item">
-                                    @item.PizzaName - @item.Quantity x £@item.PizzaPrice
-                                </li>
-                            }
+                            @if (Model.CartItems != null && Model.CartItems.Any())
+                                {
+                                    foreach (var item in Model.CartItems)
+                                {
+                        <li class="list-group-item">
+                            @item.PizzaName - @item.Quantity x £@item.PizzaPrice
+                        </li>
+                                 }
+                                 }
+                                    else
+                                    {
+                                        <li class="list-group-item">No items in the cart.</li>
+                                    }
                         </ul>
 
                         <p><strong>Total Price:</strong> <span class="price-label">£@order.TotalPrice.ToString("0.00")</span></p>

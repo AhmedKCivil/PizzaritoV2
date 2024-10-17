@@ -13,7 +13,7 @@ namespace PizzaritoShop.Pages.Forms
     [BindProperties(SupportsGet = true)]
     public class CustomPizzaModel : PageModel
     {
-
+        private const string CartSessionKey = "Cart";
         public CustomPizza CustomPizza { get; set; }
         public double PizzaPrice { get; set; }
 
@@ -21,115 +21,36 @@ namespace PizzaritoShop.Pages.Forms
         {
             PizzaPrice = CustomPizza.BasePrice;
 
-            if (CustomPizza.StuffedCrust) PizzaPrice += 4.95;
-            if (CustomPizza.ThinCrispy) PizzaPrice += 2.95;
-            if (CustomPizza.Chicken) PizzaPrice += 6.95;
-            if (CustomPizza.Pepperoni) PizzaPrice += 5.95;
+            // Adjust price based on selected options
+            if (CustomPizza.StuffedCrust) PizzaPrice += 4.5;
+            if (CustomPizza.ThinCrispy) PizzaPrice += 2.5;
+            if (CustomPizza.Chicken) PizzaPrice += 6.5;
+            if (CustomPizza.Pepperoni) PizzaPrice += 5.5;
 
+            CustomPizza.TotalPrice = PizzaPrice;
+
+            var customPizzaCartItem = new CartItem
+            {
+                PizzaId = CustomPizza.Id,
+                PizzaName = "Custom Pizza",
+                PizzaPrice = PizzaPrice,
+                Quantity = 1
+            };
+
+            var cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
+
+            cart.Add(customPizzaCartItem);
+
+            // Store the custom pizza object in the session
             HttpContext.Session.SetObject("CustomPizza", CustomPizza);
 
-            return RedirectToPage("/Checkout/CustomerDetails");
+            return RedirectToPage("/Cart/Cart");
                
         }
 
-        //public IActionResult OnPost()
-        //{
-        //    PizzaPrice = Pizza.BasePrice;
-
-        //    if (Pizza.TomatoSauce) PizzaPrice += 1;
-        //    if (Pizza.Cheese) PizzaPrice += 1;
-        //    if (Pizza.Mushroom) PizzaPrice += 1;
-        //    if (Pizza.Pineapple) PizzaPrice += 1;
-
-        //    return RedirectToPage("/Checkout/Checkout", new {Pizza.PizzaName, PizzaPrice});
-
-        //}
-
-        //public void OnGet()
-        //{
-        //}
+     
     }
 }
 
 
 
-//< h4 > CarModel </ h4 >
-//< hr />
-//< div class= "row" >
-//    < div class= "col-md-4" >
-//        < form method = "post" >
-//            < div asp - validation - summary = "ModelOnly" class= "text-danger" ></ div >
-//            < div class= "form-group" >
-//                < label asp -for= "CarModel.PersonalCarName" class= "control-label" ></ label >
-//                < input asp -for= "CarModel.PersonalCarName" class= "form-control" />
-//                < span asp - validation -for= "CarModel.PersonalCarName" class= "text-danger" ></ span >
-//            </ div >
-//            < div class= "form-group form-check" >
-//                < label class= "form-check-label" >
-//                    < input class= "form-check-input" asp -for= "CarModel.Audi" /> @Html.DisplayNameFor(model => model.CarModel.Audi)
-//                </ label >
-//            </ div >
-//            < div class= "form-group form-check" >
-//                < label class= "form-check-label" >
-//                    < input class= "form-check-input" asp -for= "CarModel.BMW" /> @Html.DisplayNameFor(model => model.CarModel.BMW)
-//                </ label >
-//            </ div >
-//            < div class= "form-group form-check" >
-//                < label class= "form-check-label" >
-//                    < input class= "form-check-input" asp -for= "CarModel.A7" /> @Html.DisplayNameFor(model => model.CarModel.A7)
-//                </ label >
-//            </ div >
-//            < div class= "form-group form-check" >
-//                < label class= "form-check-label" >
-//                    < input class= "form-check-input" asp -for= "CarModel.A3" /> @Html.DisplayNameFor(model => model.CarModel.A3)
-//                </ label >
-//            </ div >
-//            < div class= "form-group form-check" >
-//                < label class= "form-check-label" >
-//                    < input class= "form-check-input" asp -for= "CarModel.FiveSeries" /> @Html.DisplayNameFor(model => model.CarModel.FiveSeries)
-//                </ label >
-//            </ div >
-//            < div class= "form-group form-check" >
-//                < label class= "form-check-label" >
-//                    < input class= "form-check-input" asp -for= "CarModel.ThreeSeries" /> @Html.DisplayNameFor(model => model.CarModel.ThreeSeries)
-//                </ label >
-//            </ div >
-//            < div class= "form-group form-check" >
-//                < label class= "form-check-label" >
-//                    < input class= "form-check-input" asp -for= "CarModel.Bhp1" /> @Html.DisplayNameFor(model => model.CarModel.Bhp1)
-//                </ label >
-//            </ div >
-//            < div class= "form-group form-check" >
-//                < label class= "form-check-label" >
-//                    < input class= "form-check-input" asp -for= "CarModel.Bhp2" /> @Html.DisplayNameFor(model => model.CarModel.Bhp2)
-//                </ label >
-//            </ div >
-//            < div class= "form-group form-check" >
-//                < label class= "form-check-label" >
-//                    < input class= "form-check-input" asp -for= "CarModel.PremiumFeatures" /> @Html.DisplayNameFor(model => model.CarModel.PremiumFeatures)
-//                </ label >
-//            </ div >
-//            < div class= "form-group" >
-//                < label asp -for= "CarModel.BasePrice" class= "control-label" ></ label >
-//                < input asp -for= "CarModel.BasePrice" class= "form-control" />
-//                < span asp - validation -for= "CarModel.BasePrice" class= "text-danger" ></ span >
-//            </ div >
-//            < div class= "form-group" >
-//                < label asp -for= "CarModel.FinalPrice" class= "control-label" ></ label >
-//                < input asp -for= "CarModel.FinalPrice" class= "form-control" />
-//                < span asp - validation -for= "CarModel.FinalPrice" class= "text-danger" ></ span >
-//            </ div >
-//            < div class= "form-group" >
-//                < input type = "submit" value = "Create" class= "btn btn-primary" />
-//            </ div >
-//        </ form >
-//    </ div >
-//</ div >
-
-//< div >
-//    < a asp - page = "Index" > Back to List</a>
-//</div>
-
-//@section Scripts {
-//    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-//}

@@ -7,6 +7,8 @@
         public string Address { get; set; }
         public string PizzaName { get; set; }
         public double PizzaPrice { get; set; }
+
+        public double TotalPrice { get; set; }
     }
 }
 

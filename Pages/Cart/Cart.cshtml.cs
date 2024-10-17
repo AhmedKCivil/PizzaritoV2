@@ -5,6 +5,7 @@ using PizzaritoShop.Model;
 using PizzaritoShop.Helpers;
 using PizzaritoShop.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace PizzaritoShop.Pages.Cart
 {
@@ -17,9 +18,37 @@ namespace PizzaritoShop.Pages.Cart
 
         public void OnGet()
         {
-            CustomPizza customPizza = HttpContext.Session.GetObject<CustomPizza>("CustomPizza");
+            // Retrieve custom pizza from session
+            var customPizza = HttpContext.Session.GetObject<CustomPizza>("CustomPizza");
 
+            // Retrieve cart from session
             Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
+
+            // If there is a custom pizza in the session, add it to the cart if not already present
+            if (customPizza != null)
+            {
+                // Check if the custom pizza is already in the cart
+                var existingItem = Cart.FirstOrDefault(c => c.PizzaName == customPizza.PizzaName);
+            
+                if (existingItem == null)
+                {
+                    //add a new pizza to the cart
+                    var cartItem = new CartItem
+                    {
+                        PizzaName = customPizza.PizzaName,
+                        PizzaPrice = customPizza.TotalPrice,
+                        Quantity = 1,
+                    };
+
+                        Cart.Add(cartItem);
+                }
+
+                 HttpContext.Session.Remove("CustomPizza");
+            }
+
+            
+            HttpContext.Session.SetObject(CartSessionKey, Cart);
+
             TotalPrice = Cart.Sum(item => item.PizzaPrice * item.Quantity);
 
         }
@@ -37,7 +66,12 @@ namespace PizzaritoShop.Pages.Cart
             }
             else
             {
-                item = new CartItem { PizzaId = pizzaId, PizzaName = pizzaName, PizzaPrice = pizzaPrice, Quantity = 1 };
+                item = new CartItem { 
+                    PizzaId = pizzaId, 
+                    PizzaName = pizzaName, 
+                    PizzaPrice = pizzaPrice, 
+                    Quantity = 1 };
+
                 Cart.Add(item);
             }
 

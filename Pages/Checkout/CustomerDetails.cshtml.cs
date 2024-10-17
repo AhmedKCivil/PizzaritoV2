@@ -20,12 +20,11 @@ namespace PizzaritoShop.Pages.Checkout
 
         public PizzaOrder PizzaOrder { get; set; }
         public string PizzaName { get; set; }
-        public double PizzaPrice { get; set; }
+        public double TotalPrice { get; set; }
         public string ImageTitle { get; set; }
         public string CustomerName { get; set; }
         public string Address { get; set; }
         public List<CartItem> CartItems { get; set; }
-        public double TotalPrice { get; set; }
 
 
         public void OnGet(List<CartItem> cartItems, double pizzaPrice)
@@ -37,13 +36,10 @@ namespace PizzaritoShop.Pages.Checkout
         public async Task<IActionResult> OnPost()
         {
             CartItems = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
+           
             TotalPrice = CartItems.Sum(item => item.PizzaPrice * item.Quantity);
 
-
             var combinedPizzaNames = string.Join(", ", CartItems.Select(item => item.PizzaName));
-
-            Console.WriteLine("Combined Pizza Names: " + combinedPizzaNames);
-
 
             var newOrder = new OrderListModel
             {
@@ -61,6 +57,13 @@ namespace PizzaritoShop.Pages.Checkout
 
             await _context.SaveChangesAsync();
 
+            TempData["CustomerName"] = PizzaOrder.CustomerName;
+            TempData["Address"] = PizzaOrder.Address;
+            TempData["TotalPrice"] = TotalPrice.ToString();
+            TempData["CartItems"] = Newtonsoft.Json.JsonConvert.SerializeObject(CartItems);
+
+            HttpContext.Session.Remove(CartSessionKey);
+
             return RedirectToPage("/Checkout/ThankYou", new
             {
                 PizzaOrder.CustomerName,
@@ -70,43 +73,7 @@ namespace PizzaritoShop.Pages.Checkout
             });
         }
 
-        //public IActionResult OnPost(string customerName, string customerAddress, string pizzaName, double pizzaPrice)
-        //{
-        //    return RedirectToPage("/Checkout/ThankYou", new 
-        //    {   CustomerName = customerName, 
-        //        Address = customerAddress, 
-        //        PizzaName = pizzaName, 
-        //        PizzaPrice = pizzaPrice 
-        //    });
-        //}
-
-
-        //public async Task<IActionResult> OnPostAsync()
-        //{
-        //    // Check if form data is valid
-        //    //if (!ModelState.IsValid)
-        //    //{
-        //    //    return Page();
-        //    //}
-
-
-        //public IActionResult OnPost(string customerName, string address, string pizzaName,
-        //    double price)
-        //{
-        //    if (!ModelState.IsValid)
-        //    { 
-        //        return Page();
-        //    }
-
-        //    PizzaOrder.PizzaName = pizzaName;
-
-
-
-
-
-        //return RedirectToPage("/Checkout/Checkout", new { CustomerName = customerName,
-        //    Address = address, PizzaName = pizzaName, Price = price});
-        //}
+        
 
     }
 }
