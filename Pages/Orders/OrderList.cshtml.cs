@@ -23,24 +23,18 @@ namespace PizzaritoShop.Pages.Orders
 
         public async Task<IActionResult> OnGetAsync()
         {
-            
+
             //CartItems = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
 
-            OrderList = await _context.OrdersTable.OrderByDescending(o => o.CreatedDate).ToListAsync();
+            //OrderList = await _context.OrdersTable.OrderByDescending(o => o.CreatedDate).ToListAsync();
 
-            var ordersFromDb = await _context.OrdersTable.ToListAsync();
+            // Fetch orders along with their related CartItems
+            OrderList = await _context.OrdersTable
+                .Include(o => o.CartItems)  // Include CartItems in the query
+                .OrderByDescending(o => o.CreatedDate)
+                .ToListAsync();
 
-            foreach (var order in ordersFromDb)
-            {
-                if (!string.IsNullOrEmpty(order.SerializedCartItems))
-                {
-                    order.CartItems = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CartItem>>(order.SerializedCartItems);
-                }
-                else
-                {
-                    order.CartItems = new List<CartItem>(); // Initialize as empty list if null
-                }
-            }
+
 
             return Page();
         }

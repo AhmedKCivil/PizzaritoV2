@@ -10,6 +10,7 @@ namespace PizzaritoShop.Data
         public DbSet<PizzasModel> Pizzas { get; set; }
         public DbSet<PizzaOrder> PizzaOrder { get; set; }
         public DbSet<OrderListModel> OrdersTable { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
         : base(options)
@@ -20,11 +21,13 @@ namespace PizzaritoShop.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CartItem>()
-                .HasNoKey();  // This makes it a keyless entity
+            // Configure one-to-many relationship
+            modelBuilder.Entity<OrderListModel>()
+                .HasMany(o => o.CartItems)
+                .WithOne(c => c.Order)
+                .HasForeignKey(c => c.OrderListModelId);
 
-
-            
+            base.OnModelCreating(modelBuilder);
         }
 
         //If CartItem is not meant to be saved as a separate table in the database(and you're using it only for

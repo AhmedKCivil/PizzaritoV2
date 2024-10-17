@@ -8,12 +8,10 @@ namespace PizzaritoShop.Model
         public string CustomerName { get; set; }
         public string Address { get; set; }
         public string PizzaName { get; set; }
-        public double PizzaPrice { get; set; }
         public int Quantity { get; set; }  
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public double TotalPrice { get; set; }
        
-        [NotMapped]
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();
         
 
