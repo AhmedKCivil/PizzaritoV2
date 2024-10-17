@@ -28,7 +28,7 @@
                         <td>@item.PizzaPrice.ToString("c")</td>
                         <td>@((item.PizzaPrice * item.Quantity).ToString("c"))</td>
                         <td>
-                            <form method="post" asp-page-handler="Remove" asp-route-id="@item.PizzaId">
+                            <form method="post" asp-page-handler="Remove" asp-route-pizzaId="@item.PizzaId">
                                 <button type="submit" class="btn btn-danger">Remove</button>
                             </form>
                         </td>
@@ -53,3 +53,5 @@
         </div>
     }
 </div>
+
+

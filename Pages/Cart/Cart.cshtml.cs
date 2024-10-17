@@ -17,6 +17,8 @@ namespace PizzaritoShop.Pages.Cart
 
         public void OnGet()
         {
+            CustomPizza customPizza = HttpContext.Session.GetObject<CustomPizza>("CustomPizza");
+
             Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
             TotalPrice = Cart.Sum(item => item.PizzaPrice * item.Quantity);
 
@@ -39,6 +41,9 @@ namespace PizzaritoShop.Pages.Cart
                 Cart.Add(item);
             }
 
+            Cart = Cart.Where(c => c.Quantity > 0).ToList();
+
+
             HttpContext.Session.SetObject(CartSessionKey, Cart);
 
             TotalPrice = Cart.Sum(i => i.PizzaPrice * i.Quantity);
@@ -49,6 +54,45 @@ namespace PizzaritoShop.Pages.Cart
             });
         }
 
+        public IActionResult OnPostRemove(int pizzaId)
+        {
+             // Retrieve the cart from session
+            Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
 
+            var removeItem = Cart.FirstOrDefault(p => p.PizzaId == pizzaId);
+
+            if (removeItem != null)
+            {
+                if (removeItem.Quantity > 1)
+                {
+                    // Reduce quantity by 1
+                    removeItem.Quantity--;
+                }
+                else
+                {
+                    // Remove item from the cart if quantity is 1
+                    Cart.Remove(removeItem);
+                }
+            }
+
+            if (Cart.Any())
+            {
+                // If there are items in the cart, update the session
+                HttpContext.Session.SetObject(CartSessionKey, Cart);
+            }
+            else
+            {
+                // If the cart is empty, remove the cart session
+                HttpContext.Session.Remove(CartSessionKey);
+            }
+
+
+            // Recalculate the total price
+            TotalPrice = Cart.Sum(i => i.PizzaPrice * i.Quantity);
+
+            return RedirectToPage("/Cart/Cart");
+        }
+
+        
     }
 }

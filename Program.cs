@@ -20,11 +20,15 @@ builder.Services.AddSession(options => {
 builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 
+
 // Configure authentication with cookies
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 });
+
+
+
 
 // Build the app
 var app = builder.Build();

@@ -31,6 +31,12 @@
 
 
     <div class="container">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
         <div class="row justify-content-center">
             <!-- Loop through each pizza in the model to create a card for each -->
             @foreach (var pizza in Model.Pizzas)
@@ -52,7 +58,7 @@
                                     <input type="hidden" name="pizzaName" value="@pizza.PizzaName" />
                                     <input type="hidden" name="pizzaPrice" value="@pizza.Price" />
 
-                                    <button type="submit" class="btn btn-success">Add To Cart</button>
+                                    <button type="submit" class="btn btn-success">Add To Cart</button> <!-- Add the class here -->
                                 </form>
                             </div>
                             <p class="card-text">Price: £@pizza.Price</p>
@@ -63,3 +69,4 @@
         </div>
     </div>
 </div>
+

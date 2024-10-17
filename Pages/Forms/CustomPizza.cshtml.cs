@@ -5,15 +5,32 @@ using PizzaritoShop.Model;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using static System.Collections.Specialized.BitVector32;
 using System;
+using Microsoft.AspNetCore.Http;
+using PizzaritoShop.Helpers;
 
 namespace PizzaritoShop.Pages.Forms
 {
+    [BindProperties(SupportsGet = true)]
     public class CustomPizzaModel : PageModel
     {
-        //[BindProperty]
-        //public PizzasModel Pizza { get; set; }
-        //public float PizzaPrice { get; set; }
 
+        public CustomPizza CustomPizza { get; set; }
+        public double PizzaPrice { get; set; }
+
+        public IActionResult OnPost()
+        {
+            PizzaPrice = CustomPizza.BasePrice;
+
+            if (CustomPizza.StuffedCrust) PizzaPrice += 4.95;
+            if (CustomPizza.ThinCrispy) PizzaPrice += 2.95;
+            if (CustomPizza.Chicken) PizzaPrice += 6.95;
+            if (CustomPizza.Pepperoni) PizzaPrice += 5.95;
+
+            HttpContext.Session.SetObject("CustomPizza", CustomPizza);
+
+            return RedirectToPage("/Checkout/CustomerDetails");
+               
+        }
 
         //public IActionResult OnPost()
         //{
@@ -27,7 +44,7 @@ namespace PizzaritoShop.Pages.Forms
         //    return RedirectToPage("/Checkout/Checkout", new {Pizza.PizzaName, PizzaPrice});
 
         //}
-        
+
         //public void OnGet()
         //{
         //}
