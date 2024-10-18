@@ -21,10 +21,21 @@ namespace PizzaritoShop.Pages.Pizzas
         }
 
         public List<PizzasModel> Pizzas { get; set; } = new List<PizzasModel>();
-
+        
+        [BindProperty(SupportsGet = true)]
+        public string SearchQuery { get; set; }
+         
         public async Task<IActionResult> OnGetAsync()
         {
-            Pizzas = await _context.Pizzas.ToListAsync();
+            var query = _context.Pizzas.AsQueryable();
+
+            if (!string.IsNullOrEmpty(SearchQuery))
+            {
+                query = query.Where(p => p.PizzaName.Contains(SearchQuery));
+            }
+            Pizzas = await query.ToListAsync();
+
+            //Pizzas = await _context.Pizzas.ToListAsync();
 
             return Page();
         }

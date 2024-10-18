@@ -13,7 +13,6 @@ namespace PizzaritoShop.Model
         public double TotalPrice { get; set; }
        
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();
-        
 
     }
 }

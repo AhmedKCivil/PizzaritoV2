@@ -32,6 +32,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Cart/Cart">Shopping Cart</a>
                         </li>
                     </ul>
+
+                    <form method="get" asp-page="/Pizzas" class="d-flex ms-auto">
+                        <input class="form-control me-2" type="search" name="searchQuery" placeholder="Search pizzas" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+
                 </div>
             </div>
         </nav>
