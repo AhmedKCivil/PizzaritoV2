@@ -23,9 +23,10 @@ namespace PizzaritoShop.Data
         {
             // Configure one-to-many relationship
             modelBuilder.Entity<OrderListModel>()
-                .HasMany(o => o.CartItems)
-                .WithOne(c => c.Order)
-                .HasForeignKey(c => c.OrderListModelId);
+                .HasMany(o => o.CartItems)                  // Indicates that OrderListModel has many CartItems
+                .WithOne(c => c.Order)                      // Indicates that each CartItem is associated with one OrderListModel
+                .HasForeignKey(c => c.OrderListModelId);    // Specifies that CartItem's foreign key is OrderListModelId
+
 
             base.OnModelCreating(modelBuilder);
         }

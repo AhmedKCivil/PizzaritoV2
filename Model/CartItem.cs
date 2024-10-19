@@ -16,6 +16,12 @@
         // Navigation property to link to the order
         public OrderListModel Order { get; set; }
 
+        //Custom Pizza Attributes
+        public bool StuffedCrust { get; set; }
+        public bool ThinCrispy { get; set; }
+        public bool Chicken { get; set; }
+        public bool Pepperoni { get; set; }
+
     }
 
 

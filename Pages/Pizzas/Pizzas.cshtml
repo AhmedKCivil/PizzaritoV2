@@ -5,11 +5,6 @@
 
 <div class="text-center">
     <div class="mainText">
-        <a class="btn btn-success float-right" asp-page="/Pizzas/Create">
-            <i class="bi-bi list-group-item-action"></i> + Add New Pizza
-        </a>
-
-
         <h1>Your Pizza, Your Way</h1>
     </div>
 
@@ -17,12 +12,12 @@
         <div class="row justify-content-center">
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm">
-                    <a asp-page="/Forms/CustomPizza">
+                    <a asp-page="/Custom/CustomPizza">
                         <img src="~/Images/CreateYourOwn.png" class="card-img-top" alt="Create Your Own Pizza" />
                     </a>
                     <div class="card-body text-center">
                         <h5 class="card-title">Create Your Own Pizza</h5>
-                        <p class="card-text">From £6.95</p>
+                        <p class="card-text">From £10.00</p>
                     </div>
                 </div>
             </div>
@@ -54,6 +49,7 @@
 
                                 <!-- Form to submit the selected pizza -->
                                 <form method="post">
+                                    <input type="hidden" name="pizzaId" value="@pizza.Id" /> <!-- VERY IMPORTANT! -->
                                     <input type="hidden" name="imageTitle" value="@pizza.ImageTitle" />
                                     <input type="hidden" name="pizzaName" value="@pizza.PizzaName" />
                                     <input type="hidden" name="pizzaPrice" value="@pizza.Price" />

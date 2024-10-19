@@ -90,6 +90,7 @@ namespace PizzaritoShop.Pages.Cart
 
         public IActionResult OnPostRemove(int pizzaId)
         {
+
              // Retrieve the cart from session
             Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
 

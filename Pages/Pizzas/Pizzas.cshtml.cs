@@ -41,7 +41,7 @@ namespace PizzaritoShop.Pages.Pizzas
         }
 
 
-        public IActionResult OnPost(string imageTitle, string pizzaName, double pizzaPrice)
+        public IActionResult OnPost(int pizzaId, string imageTitle, string pizzaName, double pizzaPrice)
         {
             // Retrieve the existing cart from session or create a new one
             List<CartItem> cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
@@ -58,6 +58,7 @@ namespace PizzaritoShop.Pages.Pizzas
                 // Otherwise, add a new pizza to the cart
                 var cartItem = new CartItem
                 {
+                    PizzaId = pizzaId,
                     PizzaName = pizzaName,
                     PizzaPrice = pizzaPrice,
                     Quantity = 1,
@@ -71,7 +72,7 @@ namespace PizzaritoShop.Pages.Pizzas
 
             TempData["SuccessMessage"] = "Item added to cart!";
 
-            return RedirectToPage("/Pizzas/Pizzas");
+            return RedirectToPage("/Pizzas/Pizzas"); // Redirect to same page to make customer shop more.
 
         }
 

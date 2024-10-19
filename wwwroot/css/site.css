@@ -29,3 +29,29 @@ body {
     margin: 0;
 }
 
+.navbar {
+    background-color: rgb(165, 10, 35); /* Change header background to desired color */
+}
+
+.nav-link {
+    color: white !important; /* Ensure links are visible with a white color */
+}
+
+    .nav-link:hover {
+        color: rgb(220, 220, 220) !important; /* Optional: Change link color on hover */
+    }
+
+    .custom-green-button 
+    {
+        background-color: green;
+        color: white;
+        border: none;
+
+    }
+
+    .custom-green-button:hover
+    {
+        background-color: darkgreen;
+        
+
+    }
