@@ -27,10 +27,10 @@ builder.Services.AddMemoryCache();
 
 
 // Configure authentication with cookies
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-});
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//});
 
 //User Identity 
 
@@ -53,8 +53,8 @@ app.UseHttpsRedirection();  // Redirect HTTP requests to HTTPS
 app.UseStaticFiles();       // Serve static files
 
 app.UseRouting();           // Use routing
-app.UseAuthentication();;
 
+app.UseAuthentication();    // Ensure this comes before authorization
 app.UseAuthorization();     // Use authorization
 
 app.MapRazorPages();        // Map Razor Pages
