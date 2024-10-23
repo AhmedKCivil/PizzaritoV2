@@ -26,12 +26,12 @@
 
 
     <div class="container">
-        @if (TempData["SuccessMessage"] != null)
+      @*   @if (TempData["SuccessMessage"] != null)
         {
             <div class="alert alert-success">
                 @TempData["SuccessMessage"]
             </div>
-        }
+        } *@
         <div class="row justify-content-center">
             <!-- Loop through each pizza in the model to create a card for each -->
             @foreach (var pizza in Model.Pizzas)
@@ -48,13 +48,15 @@
                                 <h5 class="card-title">@pizza.PizzaName</h5>
 
                                 <!-- Form to submit the selected pizza -->
-                                <form method="post">
+                                <form method="post" class="pizza-form">
                                     <input type="hidden" name="pizzaId" value="@pizza.Id" /> <!-- VERY IMPORTANT! -->
                                     <input type="hidden" name="imageTitle" value="@pizza.ImageTitle" />
                                     <input type="hidden" name="pizzaName" value="@pizza.PizzaName" />
                                     <input type="hidden" name="pizzaPrice" value="@pizza.Price" />
 
-                                    <button type="submit" class="btn btn-success">Add To Cart</button> <!-- Add the class here -->
+                                    <button type="submit" class="btn btn-success add-to-cart-btn">Add To Cart</button> <!-- Add the class here -->
+                                
+                                    <div class="notification" style="display: none;"></div>
                                 </form>
                             </div>
                             <p class="card-text">Price: £@pizza.Price</p>
@@ -66,3 +68,34 @@
     </div>
 </div>
 
+<script>
+    document.querySelectorAll('.pizza-form').forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const notification = this.querySelector('.notification');
+            notification.textContent = "Added to Cart!";
+            notification.style.display = "block";
+
+            setTimeout(() => {
+                this.submit(); 
+            }, 2000);
+        });
+    });
+
+
+
+
+
+</script>
+
+<style>
+    .notification {
+        background-color: darkorange; /* Green background */
+        color: white; /* White text */
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+        transition: opacity 0.5s;
+    }
+</style>

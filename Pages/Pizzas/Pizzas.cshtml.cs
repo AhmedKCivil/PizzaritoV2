@@ -70,7 +70,7 @@ namespace PizzaritoShop.Pages.Pizzas
             // Save the cart back to the session
             HttpContext.Session.SetObject(CartSessionKey, cart);
 
-            TempData["SuccessMessage"] = "Item added to cart!";
+            //TempData["SuccessMessage"] = "Item added to cart!";
 
             return RedirectToPage("/Pizzas/Pizzas"); // Redirect to same page to make customer shop more.
 
