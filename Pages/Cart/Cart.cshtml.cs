@@ -6,18 +6,31 @@ using PizzaritoShop.Helpers;
 using PizzaritoShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Components.Web;
+using System.Reflection.PortableExecutable;
+using Microsoft.Identity.Client;
 
 namespace PizzaritoShop.Pages.Cart
 {
     public class CartModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
+
+        public CartModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         private const string CartSessionKey = "Cart";
 
         public List<CartItem> Cart { get; set; }
         public double TotalPrice { get; set; }
+        public List<PizzasModel> myPizzas { get; set; } = new List<PizzasModel>();
 
         public void OnGet()
         {
+            
+            myPizzas = _context.Pizzas.OrderBy(p => Guid.NewGuid()).Take(3).ToList();
+
             // Retrieve custom pizza from session
             var customPizza = HttpContext.Session.GetObject<CustomPizza>("CustomPizza");
 
