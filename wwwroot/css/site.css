@@ -55,3 +55,26 @@ body {
         
 
     }
+
+
+
+#cart-icon {
+    position: fixed;
+    top: 18px;
+    right: 45%; /* Use a percentage for a more adaptable position */
+    font-size: 25px;
+    color: gold;
+}
+
+#cart-count {
+    position: absolute;
+    top: -5px; /* Move up */
+    right: -25px; /* Move right */
+    background-color: white;
+    color: red;
+    padding: 2px 7px;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+}
+

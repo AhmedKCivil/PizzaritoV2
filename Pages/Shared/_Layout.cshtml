@@ -19,6 +19,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                        
@@ -44,8 +45,8 @@
                                         <i class="fas fa-plus"></i> Add New Pizza
                                     </a>
                                 </li>
-
                             </ul>
+
                         </div>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/About">Our History</a>
@@ -53,7 +54,15 @@
                     
                     </ul>
 
+                    <!-- Cart icon with item count badge -->
+                    <div class="cart-container me-2">
+                        <div id="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cart-count">0</span>
+                        </div>
+                    </div>
 
+                    <!-- Search engine -->
                     <form method="get" asp-page="/Pizzas" class="d-flex ms-auto">
                         <input class="form-control me-2" type="search" name="searchQuery" placeholder="Search pizzas" aria-label="Search">
                         <button class="btn custom-green-button" type="submit">Search</button>
