@@ -25,6 +25,7 @@
     </div>
 
 
+
     <div class="container">
         <div class="row justify-content-center">
             <!-- Loop through each pizza in the model to create a card for each -->
@@ -34,7 +35,7 @@
 
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
-                        <!-- Display the pizza image -->
+                        
                         <img src="@imagePath" class="card-img-top" alt="@pizza.ImageTitle" />
 
                         <div class="card-body text-center">
@@ -43,14 +44,16 @@
 
                                 <!-- Form to submit the selected pizza -->
                                 <form method="post" class="pizza-form">
-                                    <input type="hidden" name="pizzaId" value="@pizza.Id" /> <!-- VERY IMPORTANT! -->
+                                    <input type="hidden" name="pizzaId" value="@pizza.Id" /> 
                                     <input type="hidden" name="imageTitle" value="@pizza.ImageTitle" />
                                     <input type="hidden" name="pizzaName" value="@pizza.PizzaName" />
                                     <input type="hidden" name="pizzaPrice" value="@pizza.Price" />
 
-                                    <button type="submit" class="btn btn-success add-to-cart-btn">Add To Cart</button> <!-- Add the class here -->
-                                
-                                    <div class="notification" style="display: none;"></div>
+                                    <button type="submit" class="btn btn-success add-to-cart-btn">Add To Cart</button>
+
+                                    <div id="notification" style="display: none;">
+                                        Added to Cart!
+                                    </div>
                                 </form>
                             </div>
                             <p class="card-text">Price: £@pizza.Price</p>
@@ -62,31 +65,7 @@
     </div>
 </div>
 
-<script>
-    document.querySelectorAll('.pizza-form').forEach(form => {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const notification = this.querySelector('.notification');
-            notification.textContent = "Added to Cart!";
-            notification.style.display = "block";
-
-            setTimeout(() => {
-                this.submit(); 
-            }, 1500);
-        });
-    });
 
 
-</script>
+<script src="~/js/site.js"></script>
 
-<style>
-    .notification {
-        background-color: darkorange; /* Green background */
-        color: white; /* White text */
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 5px;
-        transition: opacity 0.5s;
-    }
-</style>

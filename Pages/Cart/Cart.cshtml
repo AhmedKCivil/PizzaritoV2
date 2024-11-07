@@ -53,6 +53,11 @@
         </div>
     }
 
+    <div class="mt-4">
+        <h4>Cart Count: @ViewData["CartCount"]</h4>
+    </div>
+
+
     @if (Model.Cart != null && Model.Cart.Any())
     {
        <div class="container">
@@ -64,7 +69,7 @@
 
         <div class="col-md-3 mb-3">
             <div class="card shadow-sm">
-                <!-- Display the pizza image -->
+                
                 <img src="@imagePath" class="card-img-top" alt="@pizza.ImageTitle" />
 
                 <div class="card-body text-center">
@@ -73,12 +78,12 @@
 
                         <!-- Form to submit the selected pizza -->
                         <form method="post" class="pizza-form">
-                            <input type="hidden" name="pizzaId" value="@pizza.Id" /> <!-- VERY IMPORTANT! -->
+                            <input type="hidden" name="pizzaId" value="@pizza.Id" /> 
                             <input type="hidden" name="imageTitle" value="@pizza.ImageTitle" />
                             <input type="hidden" name="pizzaName" value="@pizza.PizzaName" />
                             <input type="hidden" name="pizzaPrice" value="@pizza.Price" />
 
-                            <button type="submit" class="btn btn-success add-to-cart-btn">Add To Cart</button> <!-- Add the class here -->
+                            <button type="submit" class="btn btn-success add-to-cart-btn">Add To Cart</button> 
 
                             <div class="notification" style="display: none;"></div>
                         </form>

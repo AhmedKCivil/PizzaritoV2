@@ -56,11 +56,12 @@
 
                     <!-- Cart icon with item count badge -->
                     <div class="cart-container me-2">
-                        <div id="cart-icon">
+                        <a asp-area="" asp-page="/Cart/Cart" id="cart-icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span id="cart-count">0</span>
+                            <span id="cart-count">@ViewData["CartCount"]</span>
+                            </a>
                         </div>
-                    </div>
+                    
 
                     <!-- Search engine -->
                     <form method="get" asp-page="/Pizzas" class="d-flex ms-auto">
@@ -90,5 +91,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

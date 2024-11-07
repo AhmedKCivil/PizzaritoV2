@@ -24,7 +24,8 @@ namespace PizzaritoShop.Pages.Pizzas
         
         [BindProperty(SupportsGet = true)]
         public string SearchQuery { get; set; }
-         
+
+       
         public async Task<IActionResult> OnGetAsync()
         {
             var query = _context.Pizzas.AsQueryable();
@@ -35,13 +36,20 @@ namespace PizzaritoShop.Pages.Pizzas
             }
             Pizzas = await query.ToListAsync();
 
-            //Pizzas = await _context.Pizzas.ToListAsync();
+            // Retrieve the cart from the session
+            List<CartItem> cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
+
+            // Calculate the total quantity in the cart
+            int cartCount = cart.Sum(item => item.Quantity);
+
+            // Set the cart count in ViewData for access in _Layout
+            ViewData["CartCount"] = cartCount;
 
             return Page();
         }
 
 
-        public IActionResult OnPost(int pizzaId, string imageTitle, string pizzaName, double pizzaPrice)
+        public IActionResult OnPost([FromForm] int pizzaId, [FromForm] string imageTitle, [FromForm] string pizzaName, [FromForm] double pizzaPrice)
         {
             // Retrieve the existing cart from session or create a new one
             List<CartItem> cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
@@ -72,11 +80,11 @@ namespace PizzaritoShop.Pages.Pizzas
 
             //TempData["SuccessMessage"] = "Item added to cart!";
 
-            return RedirectToPage("/Pizzas/Pizzas"); // Redirect to same page to make customer shop more.
+            return new JsonResult(new {cartCount = cart.Sum(item => item.Quantity)});
+
+            //return RedirectToPage("/Pizzas/Pizzas"); // Redirect to same page to make customer shop more.
 
         }
-
-
 
 
         //ABOVE EXPLAINED CODE

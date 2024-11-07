@@ -28,7 +28,6 @@ namespace PizzaritoShop.Pages.Cart
 
         public void OnGet()
         {
-            
             myPizzas = _context.Pizzas.OrderBy(p => Guid.NewGuid()).Take(3).ToList();
 
             // Retrieve custom pizza from session
@@ -64,6 +63,9 @@ namespace PizzaritoShop.Pages.Cart
 
             TotalPrice = Cart.Sum(item => item.PizzaPrice * item.Quantity);
 
+            // Pass the cart count to the view (to display the cart count in the layout)
+            ViewData["CartCount"] = Cart.Sum(item => item.Quantity);
+
         }
 
         public IActionResult OnPostAddToCart(int pizzaId, string pizzaName, double pizzaPrice)
@@ -90,7 +92,6 @@ namespace PizzaritoShop.Pages.Cart
 
             Cart = Cart.Where(c => c.Quantity > 0).ToList();
 
-
             HttpContext.Session.SetObject(CartSessionKey, Cart);
 
             TotalPrice = Cart.Sum(i => i.PizzaPrice * i.Quantity);
@@ -103,7 +104,6 @@ namespace PizzaritoShop.Pages.Cart
 
         public IActionResult OnPostRemove(int pizzaId)
         {
-
              // Retrieve the cart from session
             Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
 

@@ -24,7 +24,7 @@ builder.Services.AddSession(options => {
 // Add services to the container, including Razor Pages and Memory Cache
 builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
-
+builder.Services.AddDistributedMemoryCache();
 
 // Configure authentication with cookies
 //builder.Services.AddAuthentication(options =>

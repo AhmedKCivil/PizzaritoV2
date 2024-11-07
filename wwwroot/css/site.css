@@ -78,3 +78,27 @@ body {
     font-weight: bold;
 }
 
+
+.add-to-cart-btn:disabled {
+    background-color: red; /* Light gray background */
+    cursor: not-allowed; /* Change cursor to show the button is not clickable */
+}
+
+.check-icon {
+    color: green; /* Green color for the tick */
+    font-size: 20px; /* Size of the tick */
+    margin-left: 8px; /* Space between the button text and the tick */
+    animation: showTick 0.5s ease-out; /* Animation for the tick */
+}
+
+@keyframes showTick {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
