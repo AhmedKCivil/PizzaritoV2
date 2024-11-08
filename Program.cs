@@ -1,6 +1,7 @@
 using PizzaritoShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +15,6 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-    
-
 
 
 // Configure session with a 30-minute timeout
@@ -33,9 +32,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 builder.Services.AddDistributedMemoryCache();
 
-
-//builder.Services.AddScoped<UserManager<ApplicationUser>>();
-//builder.Services.AddScoped<RoleManager<IdentityRole>>();
+// Configure Stripe settings
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 var app = builder.Build();
 
@@ -45,6 +43,9 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+
+// Set the Stripe API Key from configuration
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 app.UseSession();           // Enable session handling
 app.UseHttpsRedirection();  // Redirect HTTP requests to HTTPS
