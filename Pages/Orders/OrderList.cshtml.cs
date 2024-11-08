@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using PizzaritoShop.Model;
 
 namespace PizzaritoShop.Pages.Orders
 {
+    [Authorize (Roles = "Admin, Manager")]
     public class OrdersModel : PageModel
     {
         private readonly ApplicationDbContext _context;

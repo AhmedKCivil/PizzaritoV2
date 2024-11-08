@@ -6,7 +6,7 @@ using PizzaritoShop.Model;
 
 namespace PizzaritoShop.Pages.Pizzas
 {
-    
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;

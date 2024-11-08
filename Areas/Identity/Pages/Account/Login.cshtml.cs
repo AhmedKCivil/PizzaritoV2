@@ -115,7 +115,8 @@ namespace PizzaritoShop.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return RedirectToPage("/Pizzas/Pizzas");
+
                 }
                 if (result.RequiresTwoFactor)
                 {

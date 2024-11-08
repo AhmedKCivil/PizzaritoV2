@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PizzaritoShop.Model;
 
 namespace PizzaritoShop.Data
     
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         //public DbSet<PizzaOrder> PizzaOrders { get; set; }
         public DbSet<PizzasModel> Pizzas { get; set; }

@@ -7,6 +7,7 @@ using PizzaritoShop.Data;
 using PizzaritoShop.Model;
 using System.Reflection;
 using PizzaritoShop.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PizzaritoShop.Pages.Pizzas
 {
