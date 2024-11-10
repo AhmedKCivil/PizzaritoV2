@@ -1,34 +1,48 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using PizzaritoShop.Data;
+//using Microsoft.AspNetCore.Mvc.RazorPages;
+//using Microsoft.AspNetCore.Mvc;
+//using PizzaritoShop.Data;
+//using Microsoft.EntityFrameworkCore;
 
-namespace PizzaritoShop.Pages.Checkout
-{
-    public class PaymentModel : PageModel
-    {
-        private readonly ApplicationDbContext _context;
-        private readonly IConfiguration _configuration;
+//public class PaymentModel : PageModel
+//{
+//    private readonly ApplicationDbContext _context;
+//    private readonly IConfiguration _configuration;
 
-        public PaymentModel(ApplicationDbContext context, IConfiguration configuration)
-        {
-            _context = context;
-            _configuration = configuration;
-        }
+//    public PaymentModel(ApplicationDbContext context, IConfiguration configuration)
+//    {
+//        _context = context;
+//        _configuration = configuration;
+//    }
 
-        public string PublishableKey => _configuration["Stripe:PublishableKey"];
-        public string PizzaPriceId { get; set; } // Price ID for Stripe
-        public int Quantity { get; set; }
+//    public string PublishableKey => _configuration["Stripe:PublishableKey"];
+//    public string PizzaPriceId { get; set; }
+//    public int Quantity { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int orderId)
-        {
-            var order = await _context.OrdersTable.FindAsync(orderId);
+//    public async Task<IActionResult> OnGetAsync(int orderId)
+//    {
+//        // Retrieve the order
+//        var order = await _context.OrdersTable
+//            .Include(o => o.CartItems)
+//            .FirstOrDefaultAsync(o => o.Id == orderId);
 
-            // Assuming you have a method to get the Stripe Price ID based on the pizza/order
-            PizzaPriceId = order?.GetStripePriceId();
-            Quantity = order?.Quantity ?? 1;
+//        if (order == null || order.CartItems == null || !order.CartItems.Any())
+//        {
+//            return NotFound("Order not found or empty.");
+//        }
 
-            return Page();
-        }
-    }
+//        // Get the first item's Stripe Price ID and quantity for demonstration
+//        var firstItem = order.CartItems.First();
+//        var pizza = await _context.Pizzas
+//            .FirstOrDefaultAsync(p => p.Id == firstItem.PizzaId);
 
-}
+//        if (pizza == null)
+//        {
+//            return NotFound("Pizza not found.");
+//        }
+
+//        PizzaPriceId = pizza.StripePriceId;
+//        Quantity = firstItem.Quantity;
+
+//        return Page();
+//    }
+//}

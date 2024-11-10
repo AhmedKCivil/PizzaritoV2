@@ -66,10 +66,10 @@ namespace PizzaritoShop.Pages.Checkout
             // Clear session and redirect after order
             HttpContext.Session.Remove(CartSessionKey);
 
-            return RedirectToPage("/Checkout/Payment", new { OrderId = newOrder.Id, TotalPrice });
+            //return RedirectToPage("/Checkout/Payment", new { OrderId = newOrder.Id, TotalPrice });
 
 
-            //return RedirectToPage("/Checkout/ThankYou", new { OrderId = newOrder.Id });
+            return RedirectToPage("/Checkout/ThankYou", new { OrderId = newOrder.Id });
         }
 
 

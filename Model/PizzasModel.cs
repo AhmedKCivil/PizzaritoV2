@@ -18,7 +18,7 @@ namespace PizzaritoShop.Model
         [Display(Name = "Image URL")]
         public string ImageTitle { get; set; }
 
-        
+        //public string StripePriceId { get; set; }
     }
 }
 
