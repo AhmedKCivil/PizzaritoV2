@@ -1,0 +1,62 @@
+﻿@page "{id:int}"
+@model PizzaritoShop.Pages.Pizzas.DetailsModel
+@{
+    Layout = "_Layout"; 
+}
+
+<div class="container my-5">
+    @if (Model.PizzaDetail != null)
+    {
+        <div class="row justify-content-center">
+            <!-- Big Card for Pizza Details -->
+            <div class="col-md-10 col-lg-8">
+                <div class="card shadow-lg border-light rounded-lg">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h2 class="display-4">@Model.PizzaDetail.PizzaName</h2>
+                    </div>
+
+                    <!-- Pizza Image Section -->
+                    <div class="card-body text-center">
+                        <img src="@Model.PizzaDetail.ImageTitle" alt="@Model.PizzaDetail.PizzaName" class="img-fluid rounded mb-4 shadow-sm" style="max-height: 400px; object-fit: cover;" />
+@*                         <p class="lead text-muted">@Model.PizzaDetail.Description</p>
+ *@                        <h4 class="text-success mb-3">@Model.PizzaDetail.Price.ToString("C")</h4>
+                    </div>
+
+                    <!-- Button Section -->
+                    <div class="card-footer bg-light text-center">
+                        <div class="d-flex flex-column flex-md-row justify-content-around">
+                            <!-- Add to Cart Button -->
+                            <form method="post" class="d-inline-block mb-3 mb-md-0 w-100">
+                                <input type="hidden" name="pizzaId" value="@Model.PizzaDetail.Id" />
+                                <button type="submit" class="btn btn-success btn-lg w-100">Add to Cart</button>
+                            </form>
+
+                            <!-- Edit Button -->
+                            <a href="@Url.Page("/Pizzas/Edit", new { id = Model.PizzaDetail.Id })" class="btn btn-warning btn-lg w-100 mx-0 mx-md-2 mb-3 mb-md-0">Edit</a>
+
+                            <!-- Remove Button -->
+                            <form method="post" class="d-inline-block mb-3 mb-md-0 w-100">
+                                <input type="hidden" name="pizzaId" value="@Model.PizzaDetail.Id" />
+                                <button type="submit" class="btn btn-danger btn-lg w-100">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Return to Menu Button (Outside of the Card) -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-10 col-lg-8 text-center">
+                <a href="@Url.Page("/Pizzas/Index")" class="btn btn-info btn-lg w-100">
+                    Return to Menu
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="text-center text-danger display-4">Pizza details not available.</p>
+    }
+</div>
+

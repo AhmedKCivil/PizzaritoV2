@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Stripe;
 using PizzaritoShop.Data.Services.Base;
 using PizzaritoShop.Model;
+using PizzaritoShop.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,15 +19,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-//builder.Services.AddScoped(typeof(IEntityBaseRepository<>), typeof(EntityBaseRepository<>));
-
 // Register IHttpContextAccessor
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-// Register your repository
-builder.Services.AddScoped<IEntityBaseRepository<PizzasModel>, EntityBaseRepository<PizzasModel>>();
-
-
+builder.Services.AddScoped<IPizzasService, PizzasService>();
 
 // Configure session with a 30-minute timeout
 builder.Services.AddSession(options =>
@@ -35,7 +30,6 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
 
 
 // Add services to the container, including Razor Pages and Memory Cache

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaritoShop", "PizzaritoShop.csproj", "{E72CFDFC-43FC-439C-96EF-AA862B65A4C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaritoShopWebApi", "..\PizzaritoShopWebApi\PizzaritoShopWebApi.csproj", "{A794D549-C69F-42F0-8A86-9942C3D52CF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaritoShopWebApi", "..\PizzaritoShopWebApi\PizzaritoShopWebApi.csproj", "{A794D549-C69F-42F0-8A86-9942C3D52CF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

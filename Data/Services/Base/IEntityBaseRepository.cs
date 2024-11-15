@@ -5,7 +5,6 @@ namespace PizzaritoShop.Data.Services.Base
 {
     public interface IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {
-        //Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<TModel>> GetAllAsync<TModel>() where TModel : class;
         Task<List<PizzasModel>> GetAllPizzasAsync(string apiUrl);
         //Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties);

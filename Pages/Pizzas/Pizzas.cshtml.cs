@@ -15,23 +15,25 @@ using System.Reflection.PortableExecutable;
 using PizzaritoShop.Data.Services.Base;
 using PizzaritoShop.Interfaces;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PizzaritoShop.Data.Services;
 
 namespace PizzaritoShop.Pages.Pizzas
 {
     public class PizzaModel : PageModel
     {
         private const string CartSessionKey = "Cart";
-        private readonly IEntityBaseRepository<PizzasModel> _pizzaRepository;
-        private readonly ApplicationDbContext _context;
+        private readonly IPizzasService _pizzasService;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public PizzaModel(IEntityBaseRepository<PizzasModel> pizzaRepository, IHttpClientFactory httpClientFactory)
+        public PizzaModel(IPizzasService pizzasService, IHttpClientFactory httpClientFactory)
         {
-            _pizzaRepository = pizzaRepository;
+            _pizzasService = pizzasService;
             _httpClientFactory = httpClientFactory;
         }
 
         public List<PizzasModel> Pizzas { get; set; } = new List<PizzasModel>();
+        public PizzasModel PizzaDetail { get; set; } //Property to hold pizza details.
         
         [BindProperty(SupportsGet = true)]
         public string SearchQuery { get; set; }
@@ -39,8 +41,8 @@ namespace PizzaritoShop.Pages.Pizzas
         public async Task<IActionResult> OnGetAsync()
         {
 
-            // Fetch pizzas from the repository method that handles both API and database
-            Pizzas = await _pizzaRepository.GetAllPizzasAsync("https://localhost:7030/api/Pizzas");
+            // Fetch pizzas using the PizzasService (API + Fallback to DB)
+            Pizzas = await _pizzasService.GetAllPizzasAsync("https://localhost:7030/api/Pizzas");
 
             // Apply search filter if SearchQuery is provided
             if (!string.IsNullOrEmpty(SearchQuery))
@@ -57,8 +59,8 @@ namespace PizzaritoShop.Pages.Pizzas
 
         public async Task<IActionResult> OnPostAsync([FromForm] int pizzaId, [FromForm] string imageTitle, [FromForm] string pizzaName, [FromForm] double pizzaPrice)
         {
-            // Call the repository method to handle the cart and add the pizza to the cart
-            await _pizzaRepository.AddToCartAsync(pizzaId, imageTitle, pizzaName, pizzaPrice, CartSessionKey);
+            // Handle adding pizza to cart
+            await _pizzasService.AddToCartAsync(pizzaId, imageTitle, pizzaName, pizzaPrice, CartSessionKey);
 
             // Get the updated cart count
             var cartCount = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey)?.Sum(item => item.Quantity) ?? 0;
@@ -66,6 +68,7 @@ namespace PizzaritoShop.Pages.Pizzas
             // Return the cart count as a JSON response
             return new JsonResult(new { cartCount });
         }
+
 
 
         //public IActionResult OnPost([FromForm] int pizzaId, [FromForm] string imageTitle, [FromForm] string pizzaName, [FromForm] double pizzaPrice)
