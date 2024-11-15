@@ -2,6 +2,8 @@ using PizzaritoShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Stripe;
+using PizzaritoShop.Data.Services.Base;
+using PizzaritoShop.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,15 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+//builder.Services.AddScoped(typeof(IEntityBaseRepository<>), typeof(EntityBaseRepository<>));
+
+// Register IHttpContextAccessor
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+// Register your repository
+builder.Services.AddScoped<IEntityBaseRepository<PizzasModel>, EntityBaseRepository<PizzasModel>>();
+
 
 
 // Configure session with a 30-minute timeout
@@ -34,6 +45,8 @@ builder.Services.AddDistributedMemoryCache();
 
 // Configure Stripe settings
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
+builder.Services.AddHttpClient(); //newly added for API
 
 var app = builder.Build();
 

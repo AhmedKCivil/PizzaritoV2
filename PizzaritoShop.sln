@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaritoShop", "PizzaritoShop.csproj", "{E72CFDFC-43FC-439C-96EF-AA862B65A4C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaritoShopWebApi", "..\PizzaritoShopWebApi\PizzaritoShopWebApi.csproj", "{A794D549-C69F-42F0-8A86-9942C3D52CF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E72CFDFC-43FC-439C-96EF-AA862B65A4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E72CFDFC-43FC-439C-96EF-AA862B65A4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E72CFDFC-43FC-439C-96EF-AA862B65A4C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A794D549-C69F-42F0-8A86-9942C3D52CF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A794D549-C69F-42F0-8A86-9942C3D52CF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A794D549-C69F-42F0-8A86-9942C3D52CF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A794D549-C69F-42F0-8A86-9942C3D52CF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
