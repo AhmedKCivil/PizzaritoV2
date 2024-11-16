@@ -3,12 +3,12 @@
 
 <h1>Edit Pizza</h1>
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
+<!-- Display success message if available -->
+<div id="successMessage" style="display: none; color: green; font-weight: bold;">
+    @TempData["SuccessMessage"]
+</div>
 
-<form method="post">
+<form id="editPizzaForm" method="post">
     <div class="form-group">
         <label for="PizzaName">Pizza Name</label>
         <input asp-for="PizzaDetail.PizzaName" class="form-control" />
@@ -27,10 +27,25 @@
         <span asp-validation-for="PizzaDetail.ImageTitle" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <button type="submit" class="btn btn-primary" id="saveButton">Save Changes</button>
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
 </form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = document.getElementById('successMessage');
+
+            // Show the success message if it exists
+            if (successMessage && successMessage.textContent.trim()) {
+                successMessage.style.display = "block";
+
+                // Redirect after a delay
+                setTimeout(function () {
+                    window.location.href = 'https://localhost:7136/Pizzas/Pizzas';
+                }, 2000);
+            }
+        });
+    </script>
 }

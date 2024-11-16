@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using PizzaritoShop.Data.Services;
 using PizzaritoShop.Data.Services.Base;
 using PizzaritoShop.Interfaces;
 using PizzaritoShop.Model;
@@ -8,18 +9,18 @@ namespace PizzaritoShop.Pages.Pizzas
 {
     public class DetailsModel : PageModel
     {
-        private readonly IEntityBaseRepository<PizzasModel> _pizzaRepository;
+        private readonly IPizzasService _pizzasService;
 
-        public DetailsModel(IEntityBaseRepository<PizzasModel> pizzaRepository)
+        public DetailsModel(IPizzasService pizzasService)
         {
-            _pizzaRepository = pizzaRepository;
+            _pizzasService = pizzasService;
         }
 
         public PizzasModel PizzaDetail { get; set; } //Property to hold pizza details.
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            PizzaDetail = await _pizzaRepository.GetByIdAsync(id);
+            PizzaDetail = await _pizzasService.GetByIdAsync(id);
 
             return PizzaDetail == null ? NotFound() : Page();
         }
