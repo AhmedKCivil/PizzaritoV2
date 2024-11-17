@@ -24,5 +24,20 @@ namespace PizzaritoShop.Pages.Pizzas
 
             return PizzaDetail == null ? NotFound() : Page();
         }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            try
+            {
+                await _pizzasService.DeleteAsync(id);
+                return RedirectToPage("/Pizzas/Pizzas"); // Redirect after deletion
+            }
+            catch (InvalidOperationException)
+            {
+                // Handle case when pizza isn't found (optional)
+                return NotFound();
+            }
+        }
+
     }
 }

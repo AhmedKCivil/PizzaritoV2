@@ -21,7 +21,7 @@ namespace PizzaritoShop.Data.Services
             _httpContextAccessor = httpContextAccessor;
             _httpClientFactory = httpClientFactory;
         }
-
+        
         public async Task<List<PizzasModel>> GetAllPizzasAsync(string apiUrl)
         {
             List<PizzasModel> pizzas = null;
@@ -124,7 +124,17 @@ namespace PizzaritoShop.Data.Services
 
         }
 
-       
+        public async Task DeleteAsync(int id)
+        {
+            var pizza = await _context.Pizzas.FindAsync(id);
+            if (pizza == null)
+            {
+                throw new InvalidOperationException("Pizza not found");
+            }
+
+            _context.Pizzas.Remove(pizza);
+            await _context.SaveChangesAsync();
+        }
     }
 }
 

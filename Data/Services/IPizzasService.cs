@@ -13,6 +13,7 @@ namespace PizzaritoShop.Data.Services
         Task UpdateAsync(int id, PizzasModel updatedPizza);
         Task<List<PizzasModel>> GetAllPizzasAsync(string apiUrl);
         Task<PizzasModel> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
 
     }
 }
