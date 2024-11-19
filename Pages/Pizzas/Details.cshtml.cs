@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PizzaritoShop.Data.Services;
 using PizzaritoShop.Data.Services.Base;
-using PizzaritoShop.Interfaces;
 using PizzaritoShop.Model;
 
 namespace PizzaritoShop.Pages.Pizzas
@@ -30,11 +29,10 @@ namespace PizzaritoShop.Pages.Pizzas
             try
             {
                 await _pizzasService.DeleteAsync(id);
-                return RedirectToPage("/Pizzas/Pizzas"); // Redirect after deletion
+                return RedirectToPage("/Pizzas/Pizzas"); 
             }
             catch (InvalidOperationException)
             {
-                // Handle case when pizza isn't found (optional)
                 return NotFound();
             }
         }

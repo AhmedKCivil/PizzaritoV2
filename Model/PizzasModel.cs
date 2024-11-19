@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace PizzaritoShop.Model
 {
-    public class PizzasModel : IEntityBase
+    public class PizzasModel
     {
         [Key]
         public int Id { get; set; }
