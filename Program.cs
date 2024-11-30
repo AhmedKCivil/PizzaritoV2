@@ -5,6 +5,9 @@ using Stripe;
 using PizzaritoShop.Data.Services.Base;
 using PizzaritoShop.Model;
 using PizzaritoShop.Data.Services;
+using PizzaritoShop.Data.Interfaces;
+using ProductService = PizzaritoShop.Data.Services.ProductService;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +24,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
 // Register IHttpContextAccessor
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddScoped<IPizzasService, PizzasService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+//builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 // Configure session with a 30-minute timeout
 builder.Services.AddSession(options =>
@@ -31,15 +35,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-
 // Add services to the container, including Razor Pages and Memory Cache
 builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 builder.Services.AddDistributedMemoryCache();
-
-// Configure Stripe settings
-builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
-
 builder.Services.AddHttpClient(); //newly added for API
 
 var app = builder.Build();
@@ -50,9 +49,6 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-
-// Set the Stripe API Key from configuration
-StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 app.UseSession();           // Enable session handling
 app.UseHttpsRedirection();  // Redirect HTTP requests to HTTPS
@@ -71,7 +67,7 @@ app.UseEndpoints(endpoints =>
     // Redirect to /Pizzas/Pizzas when accessing the root URL
     endpoints.MapGet("/", context =>
     {
-        context.Response.Redirect("/Pizzas/Pizzas");
+        context.Response.Redirect("/Pizzas/Products");
         return Task.CompletedTask;
     });
 });

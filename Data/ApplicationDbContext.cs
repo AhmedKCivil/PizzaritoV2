@@ -2,17 +2,16 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PizzaritoShop.Model;
+using System.Reflection;
 
 namespace PizzaritoShop.Data
     
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-        //public DbSet<PizzaOrder> PizzaOrders { get; set; }
-        public DbSet<PizzasModel> Pizzas { get; set; }
-        public DbSet<PizzaOrder> PizzaOrder { get; set; }
-        public DbSet<OrderListModel> OrdersTable { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
         : base(options)
@@ -23,14 +22,15 @@ namespace PizzaritoShop.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure one-to-many relationship
-            modelBuilder.Entity<OrderListModel>()
-                .HasMany(o => o.CartItems)                  // Indicates that OrderListModel has many CartItems
-                .WithOne(c => c.Order)                      // Indicates that each CartItem is associated with one OrderListModel
-                .HasForeignKey(c => c.OrderListModelId);    // Specifies that CartItem's foreign key is OrderListModelId
+
+            modelBuilder.Entity<IdentityUserLogin<string>>().HasNoKey();
+            modelBuilder.Entity<IdentityUserRole<string>>().HasNoKey();
+            modelBuilder.Entity<IdentityUserToken<string>>().HasNoKey();
 
 
-            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            
         }
 
         //If CartItem is not meant to be saved as a separate table in the database(and you're using it only for

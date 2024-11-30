@@ -1,4 +1,4 @@
-﻿@page "{id:int}"
+﻿@* @* @* @page "{id:int}"
 @model PizzaritoShop.Pages.Pizzas.DetailsModel
 @{
     Layout = "_Layout"; 
@@ -18,8 +18,8 @@
                     <!-- Pizza Image Section -->
                     <div class="card-body text-center">
                         <img src="@Model.PizzaDetail.ImageTitle" alt="@Model.PizzaDetail.PizzaName" class="img-fluid rounded mb-4 shadow-sm" style="max-height: 400px; object-fit: cover;" />
-@*                         <p class="lead text-muted">@Model.PizzaDetail.Description</p>
- *@                        <h4 class="text-success mb-3">@Model.PizzaDetail.Price.ToString("C")</h4>
+                         <p class="lead text-muted">@Model.PizzaDetail.Description</p>
+                         <h4 class="text-success mb-3">@Model.PizzaDetail.Price.ToString("C")</h4>
                     </div>
 
                     <!-- Button Section -->
@@ -32,7 +32,7 @@
                             </form> *@
 
                             <!-- Edit Button -->
-                            <a href="@Url.Page("/Pizzas/Edit", new { id = Model.PizzaDetail.Id })" class="btn btn-warning btn-lg w-100 mx-0 mx-md-2 mb-3 mb-md-0">Edit</a>
+@*                             <a href="@Url.Page("/Pizzas/Edit", new { id = Model.PizzaDetail.Id })" class="btn btn-warning btn-lg w-100 mx-0 mx-md-2 mb-3 mb-md-0">Edit</a>
 
                             <!-- Delete Form (Hidden) -->
                             <form id="deleteForm" method="post" class="d-inline-block mb-3 mb-md-0 w-100" asp-page-handler="Delete">
@@ -52,8 +52,8 @@
                 </div>
             </div>
         </div>
-
-        <!-- Return to Menu Button (Outside of the Card) -->
+ *@
+@*         <!-- Return to Menu Button -->
         <div class="row justify-content-center mt-4">
             <div class="col-md-10 col-lg-8 text-center">
                 <a href="@Url.Page("/Pizzas/Index")" class="btn btn-info btn-lg w-100">
@@ -68,4 +68,4 @@
     }
 </div>
 
-<script src="~/js/CRUD.js"></script>
+<script src="~/js/CRUD.js"></script> *@

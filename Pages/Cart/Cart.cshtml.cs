@@ -1,146 +1,146 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using PizzaritoShop.Model;
-using PizzaritoShop.Helpers;
-using PizzaritoShop.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Components.Web;
-using System.Reflection.PortableExecutable;
-using Microsoft.Identity.Client;
+//using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.Mvc.RazorPages;
+//using PizzaritoShop.Model;
+//using PizzaritoShop.Helpers;
+//using PizzaritoShop.Data;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.AspNetCore.Components.Web;
+//using System.Reflection.PortableExecutable;
+//using Microsoft.Identity.Client;
 
-namespace PizzaritoShop.Pages.Cart
-{
-    public class CartModel : PageModel
-    {
-        private readonly ApplicationDbContext _context;
+//namespace PizzaritoShop.Pages.Cart
+//{
+//    public class CartModel : PageModel
+//    {
+//        private readonly ApplicationDbContext _context;
 
-        public CartModel(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+//        public CartModel(ApplicationDbContext context)
+//        {
+//            _context = context;
+//        }
 
-        private const string CartSessionKey = "Cart";
+//        private const string CartSessionKey = "Cart";
 
-        public List<CartItem> Cart { get; set; }
-        public double TotalPrice { get; set; }
-        public List<PizzasModel> myPizzas { get; set; } = new List<PizzasModel>();
+//        public List<CartItem> Cart { get; set; }
+//        public double TotalPrice { get; set; }
+//        public List<Product> Products { get; set; } = new List<Product>();
 
-        public void OnGet()
-        {
-            myPizzas = _context.Pizzas.OrderBy(p => Guid.NewGuid()).Take(3).ToList();
+//        public void OnGet()
+//        {
+//            Products = _context.Products.OrderBy(p => Guid.NewGuid()).Take(3).ToList();
 
-            // Retrieve custom pizza from session
-            var customPizza = HttpContext.Session.GetObject<CustomPizza>("CustomPizza");
+//            // Retrieve custom pizza from session
+//            var customPizza = HttpContext.Session.GetObject<CustomPizza>("CustomPizza");
 
-            // Retrieve cart from session
-            Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
+//            // Retrieve cart from session
+//            Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
 
-            // If there is a custom pizza in the session, add it to the cart if not already present
-            if (customPizza != null)
-            {
-                // Check if the custom pizza is already in the cart
-                var existingItem = Cart.FirstOrDefault(c => c.PizzaName == customPizza.PizzaName);
+//            // If there is a custom pizza in the session, add it to the cart if not already present
+//            if (customPizza != null)
+//            {
+//                // Check if the custom pizza is already in the cart
+//                var existingItem = Cart.FirstOrDefault(c => c.PizzaName == customPizza.PizzaName);
             
-                if (existingItem == null)
-                {
-                    //add a new pizza to the cart
-                    var cartItem = new CartItem
-                    {
-                        PizzaName = customPizza.PizzaName,
-                        PizzaPrice = customPizza.TotalPrice,
-                        Quantity = 1,
-                    };
+//                if (existingItem == null)
+//                {
+//                    //add a new pizza to the cart
+//                    var cartItem = new CartItem
+//                    {
+//                        PizzaName = customPizza.PizzaName,
+//                        PizzaPrice = customPizza.TotalPrice,
+//                        Quantity = 1,
+//                    };
 
-                        Cart.Add(cartItem);
-                }
+//                        Cart.Add(cartItem);
+//                }
 
-                 HttpContext.Session.Remove("CustomPizza");
-            }
+//                 HttpContext.Session.Remove("CustomPizza");
+//            }
 
             
-            HttpContext.Session.SetObject(CartSessionKey, Cart);
+//            HttpContext.Session.SetObject(CartSessionKey, Cart);
 
-            TotalPrice = Cart.Sum(item => item.PizzaPrice * item.Quantity);
+//            TotalPrice = Cart.Sum(item => item.PizzaPrice * item.Quantity);
 
-            // Pass the cart count to the view (to display the cart count in the layout)
-            ViewData["CartCount"] = Cart.Sum(item => item.Quantity);
+//        }
 
-        }
-
-        public IActionResult OnPostAddToCart(int pizzaId, string pizzaName, double pizzaPrice)
-        {
-            Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
+//        public IActionResult OnPostAddToCart(int pizzaId, string pizzaName, double pizzaPrice)
+//        {
+//            Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
             
-            var item = Cart.FirstOrDefault(c => c.PizzaId == pizzaId);
+//            var item = Cart.FirstOrDefault(c => c.PizzaId == pizzaId);
 
-            if (item != null)
-            {
-                item.Quantity++;
+//            if (item != null)
+//            {
+//                item.Quantity++;
 
-            }
-            else
-            {
-                item = new CartItem { 
-                    PizzaId = pizzaId, 
-                    PizzaName = pizzaName, 
-                    PizzaPrice = pizzaPrice, 
-                    Quantity = 1 };
+//            }
+//            else
+//            {
+//                item = new CartItem { 
+//                    PizzaId = pizzaId, 
+//                    PizzaName = pizzaName, 
+//                    PizzaPrice = pizzaPrice, 
+//                    Quantity = 1 };
 
-                Cart.Add(item);
-            }
+//                Cart.Add(item);
+//            }
 
-            Cart = Cart.Where(c => c.Quantity > 0).ToList();
+//            Cart = Cart.Where(c => c.Quantity > 0).ToList();
 
-            HttpContext.Session.SetObject(CartSessionKey, Cart);
+//            HttpContext.Session.SetObject(CartSessionKey, Cart);
 
-            TotalPrice = Cart.Sum(i => i.PizzaPrice * i.Quantity);
+//            // Store the OrderId in session for retrieval in later steps
+//            HttpContext.Session.SetInt32("OrderId", newOrder.Id);
 
-            return RedirectToPage("/Checkout/CustomerDetails", new
-            {
-                PizzaPrice = TotalPrice
-            });
-        }
+//            TotalPrice = Cart.Sum(i => i.PizzaPrice * i.Quantity);
 
-        public IActionResult OnPostRemove(int pizzaId)
-        {
-             // Retrieve the cart from session
-            Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
+//            return RedirectToPage("/Checkout/CustomerDetails", new
+//            {
+//                orderId = newOrder.Id
+//            });
+//        }
 
-            var removeItem = Cart.FirstOrDefault(p => p.PizzaId == pizzaId);
+//        public IActionResult OnPostRemove(int pizzaId)
+//        {
+//             // Retrieve the cart from session
+//            Cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
 
-            if (removeItem != null)
-            {
-                if (removeItem.Quantity > 1)
-                {
-                    // Reduce quantity by 1
-                    removeItem.Quantity--;
-                }
-                else
-                {
-                    // Remove item from the cart if quantity is 1
-                    Cart.Remove(removeItem);
-                }
-            }
+//            var removeItem = Cart.FirstOrDefault(p => p.PizzaId == pizzaId);
 
-            if (Cart.Any())
-            {
-                // If there are items in the cart, update the session
-                HttpContext.Session.SetObject(CartSessionKey, Cart);
-            }
-            else
-            {
-                // If the cart is empty, remove the cart session
-                HttpContext.Session.Remove(CartSessionKey);
-            }
+//            if (removeItem != null)
+//            {
+//                if (removeItem.Quantity > 1)
+//                {
+//                    // Reduce quantity by 1
+//                    removeItem.Quantity--;
+//                }
+//                else
+//                {
+//                    // Remove item from the cart if quantity is 1
+//                    Cart.Remove(removeItem);
+//                }
+//            }
+
+//            if (Cart.Any())
+//            {
+//                // If there are items in the cart, update the session
+//                HttpContext.Session.SetObject(CartSessionKey, Cart);
+//            }
+//            else
+//            {
+//                // If the cart is empty, remove the cart session
+//                HttpContext.Session.Remove(CartSessionKey);
+//            }
 
 
-            // Recalculate the total price
-            TotalPrice = Cart.Sum(i => i.PizzaPrice * i.Quantity);
+//            // Recalculate the total price
+//            TotalPrice = Cart.Sum(i => i.PizzaPrice * i.Quantity);
 
-            return RedirectToPage("/Cart/Cart");
-        }
+//            return RedirectToPage("/Cart/Cart");
+//        }
 
         
-    }
-}
+//    }
+//}

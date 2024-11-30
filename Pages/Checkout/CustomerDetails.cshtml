@@ -1,7 +1,9 @@
-﻿@page
+﻿@* @page
 @model PizzaritoShop.Pages.Checkout.CustomerDetailsModel
 @{
     Layout = "_Layout";
+    var clientId = ViewData["ClientId"] as string;
+    var orderId = ViewData["OrderId"];
 }
 
 <div class="container mt-5">
@@ -13,75 +15,241 @@
                 </div>
                 <div class="card-body">
                     <form method="post">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-
-                        <!-- Customer Name Input -->
+                        <!-- Customer Name -->
                         <div class="form-group mb-3">
                             <label asp-for="PizzaOrder.CustomerName" class="form-label">Your Name</label>
                             <input asp-for="PizzaOrder.CustomerName" class="form-control form-control-lg" placeholder="Enter your full name" />
                             <span asp-validation-for="PizzaOrder.CustomerName" class="text-danger"></span>
                         </div>
 
-                        <!-- Address Input -->
+                        <!-- Address -->
                         <div class="form-group mb-3">
                             <label asp-for="PizzaOrder.Address" class="form-label">Delivery Address</label>
                             <input asp-for="PizzaOrder.Address" class="form-control form-control-lg" placeholder="Enter your delivery address" />
                             <span asp-validation-for="PizzaOrder.Address" class="text-danger"></span>
                         </div>
 
-                        <!-- Submit Button -->
-                        <div class="d-grid gap-2 mt-4">
-                            <input type="submit" value="Submit Order" class="btn btn-success btn-lg" />
-                        </div>
-                    </form>
-                </div>
-            </div>
+                        <!-- PayPal Button -->
+                        <div id="paypal-button-container"></div>
+                        <p id="result-message"></p>
 
-            <!-- Order Summary Section -->
-            <div class="card shadow-sm border-0 rounded-lg mt-5">
-                <div class="card-body text-center">
-                    <h4>Order Summary</h4>
-                    <ul class="list-group mb-4">
-                        @foreach (var item in Model.CartItems)
-                        {
-                            <li class="list-group-item">
-                                @item.PizzaName - @item.Quantity x £@item.PizzaPrice
-                                <br />
-                                <p>Added toppings:</p>
-                                <div>
-                                    @{
-                                        // Create a list to hold the selected toppings
-                                        var selectedToppings = new List<string>();
 
-                                        // Add toppings to the list based on their selection
-                                        if (item.StuffedCrust) { selectedToppings.Add("Stuffed Crust"); }
-                                        if (item.ThinCrispy) { selectedToppings.Add("Thin Crispy"); }
-                                        if (item.Chicken) { selectedToppings.Add("Chicken"); }
-                                        if (item.Pepperoni) { selectedToppings.Add("Pepperoni"); }
 
-                                        // Join the selected toppings with commas and output them
-                                        var toppingsOutput = string.Join(", ", selectedToppings);
-                                    }
-
-                                    <!-- Output the toppings, or show "No toppings" if none are selected -->
-                                    @if (!string.IsNullOrEmpty(toppingsOutput))
-                                    {
-                                        @toppingsOutput
-                                    }
-                                    else
-                                    {
-                                        <span>No toppings</span>
-                                    }
-                                </div>
-                            </li>
-                        }
-
-                    </ul>
-                    <hr />
-                    <p class="text-muted">Total Price: <strong>£@Model.TotalPrice.ToString("0.00")</strong></p>
+                        @* <div class="text-center mt-4">
+                            <div id="paypal-btn"></div>
+                        </div> *@
+@*                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+ *@
+<!-- PayPal SDK -->
+@* <script src="https://www.paypal.com/sdk/js?client-id=@clientId&buyer-country=GB&currency=GBP&components=buttons&enable-funding=venmo,paylater,card"></script>
+ *@
+<!-- Custom PayPal Button Script -->
+@* @section Scripts {
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <script>
+        let _total = @Html.Raw(Model.CartItems);
 
+        paypal.Button.render({
+            //Configure environment
+            env: 'sandbox',
+            client: {
+                sandbox: 'AcKRtgL4i68EZ2ZYuYUx3ilihAg2YhL5dtF_m19A8MjBWVOn6ewNS4M_uV8gA3xi98zTcUq38gUHbVFx'
+            },
+
+            //Customize button
+            locale: 'en_US',
+            style: {
+                size: 'small',
+                color: 'gold',
+                shape: 'pill'
+            },
+            commit: true,
+
+            //Set up a payment
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: _total,
+                            currency: 'GBP'
+                        },
+                        description: 'PizzaritoShop Order'
+                    }]
+                }).then(function (data) {
+                    return data.id; // Returning the order ID from the payment creation response
+                });
+            },
+
+            //Execute the payment
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute().then(function () {
+                    var url = '@Url.Page("/Checkout/ThankYou", new { OrderId = "orderId" })';
+                    url = url.replace("orderId", data.orderID); // Replace with actual order ID from PayPal response
+                    window.location.href = url;
+                });
+            }
+
+        }, '#paypal-btn')
+    </script>
+}
+
+
+
+ *@
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* 
+<script>
+    window.paypal
+        .Buttons({
+            style: {
+                shape: "rect",
+                layout: "vertical",
+                color: "gold",
+                label: "paypal",
+            },
+            async createOrder() {
+                try {
+                    // Fetch cart items from Razor Page Model
+                    const cart = @Html.Raw(Json.Serialize(Model.CartItems));
+                    const response = await fetch("/api/orders", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            cart: cart,
+                            totalPrice: @Model.TotalPrice,
+                            customerDetails: {
+                                name: '@Model.PizzaOrder.CustomerName',
+                                address: '@Model.PizzaOrder.Address'
+                            },
+                        }),
+                    });
+
+                    const orderData = await response.json();
+
+                    if (orderData.id) {
+                        return orderData.id; // Return the PayPal order ID
+                    }
+
+                    const errorDetail = orderData?.details?.[0];
+                    const errorMessage = errorDetail
+                        ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+                        : JSON.stringify(orderData);
+
+                    throw new Error(errorMessage);
+                } catch (error) {
+                    console.error(error);
+                    alert("Could not initiate PayPal Checkout. Please try again.");
+                }
+            },
+
+            async onApprove(data, actions) {
+                try {
+                    // Capture the order on your server
+                    const response = await fetch(
+                        `/api/orders/${data.orderID}/capture`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
+
+                    const orderData = await response.json();
+
+                    const errorDetail = orderData?.details?.[0];
+
+                    if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
+                        return actions.restart(); // Retry in case of recoverable error
+                    } else if (errorDetail) {
+                        throw new Error(
+                            `${errorDetail.description} (${orderData.debug_id})`
+                        );
+                    } else if (!orderData.purchase_units) {
+                        throw new Error(JSON.stringify(orderData));
+                    } else {
+                        // Redirect to ThankYou page with OrderId
+                        const orderId = orderData.id; // Use your order ID
+                        var url = '@Url.Page("/Checkout/ThankYou", new { OrderId = "orderId" })';
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("An error occurred during the payment process. Please try again.");
+                }
+            },
+        })
+        .render("#paypal-button-container");
+</script>
+
+ *@
+
+
+@* @section Scripts {
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+    <script>
+        // Retrieve ClientId and OrderId dynamically from ViewData
+        var clientId = '@clientId';
+        var orderId = '@orderId';
+
+        paypal.Button.render({
+            // Configure environment
+            env: 'sandbox', // Change to 'production' for live transactions
+            client: {
+                sandbox: clientId
+            },
+            style: {
+                size: 'responsive',
+                color: 'gold',
+                shape: 'pill',
+                label: 'paypal'
+            },
+            // Set up a payment
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: '@Model.TotalPrice.ToString("0.00")',
+                            currency: 'GBP'
+                        }
+                    }]
+                });
+            },
+            // Execute the payment
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute().then(function () {
+                    // Redirect to ThankYou page with OrderId
+                    var url = '/Checkout/ThankYou?OrderId=' + orderId;
+                    window.location.href = url;
+                });
+            },
+            onCancel: function (data) {
+                alert('Payment was cancelled.');
+            },
+            onError: function (err) {
+                console.error('PayPal Error:', err);
+                alert('An error occurred during the payment process.');
+            }
+        }, '#paypal-btn');
+    </script>
+}
+ *@ 

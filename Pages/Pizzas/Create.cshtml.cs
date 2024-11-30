@@ -1,44 +1,44 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using PizzaritoShop.Data;
-using PizzaritoShop.Model;
+//using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.Mvc.RazorPages;
+//using PizzaritoShop.Data;
+//using PizzaritoShop.Model;
 
-namespace PizzaritoShop.Pages.Pizzas
-{
-    [Authorize(Roles = "Admin")]
-    public class CreateModel : PageModel
-    {
-        private readonly ApplicationDbContext _context;
+//namespace PizzaritoShop.Pages.Pizzas
+//{
+//    [Authorize(Roles = "Admin")]
+//    public class CreateModel : PageModel
+//    {
+//        private readonly ApplicationDbContext _context;
 
-        public CreateModel(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+//        public CreateModel(ApplicationDbContext context)
+//        {
+//            _context = context;
+//        }
 
-        [BindProperty]
-        public PizzasModel NewPizza { get; set; }
+//        [BindProperty]
+//        public PizzasModel NewPizza { get; set; }
 
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if(!ModelState.IsValid)
-            {
-                return Page();
-            }
+//        public IActionResult OnGet()
+//        {
+//            return Page();
+//        }
+//        public async Task<IActionResult> OnPostAsync()
+//        {
+//            if(!ModelState.IsValid)
+//            {
+//                return Page();
+//            }
 
-            //Add the new pizza to db
+//            //Add the new pizza to db
 
-            _context.Pizzas.Add(NewPizza);
-            await _context.SaveChangesAsync();
+//            _context.Pizzas.Add(NewPizza);
+//            await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Pizzas/Pizzas");
-        }
+//            return RedirectToPage("/Pizzas/Pizzas");
+//        }
 
         
 
-    }
-}
+//    }
+//}
