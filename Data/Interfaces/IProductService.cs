@@ -7,6 +7,8 @@ namespace PizzaritoShop.Data.Interfaces
     {
         Task<List<Product>> GetProductsAsync();
         Task<Product> GetProductAsync(int id);
+        Task UpdateAsync(int id, Product updatedProduct);
+        Task DeleteAsync(int id);
 
     }
 }

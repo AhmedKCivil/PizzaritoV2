@@ -7,50 +7,72 @@
 <div class="container mt-4">
     <h1 class="text-center mb-4">Our Delicious Pizzas</h1>
 
-    <!-- Check if there are products -->
-    @if (Model.Products == null || !Model.Products.Any())
-    {
-        <div class="alert alert-info text-center" role="alert">
-            <strong>No products available!</strong> Check back later.
+    <!-- Section for "Create Your Own Pizza" -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <a asp-page="/Custom/CustomPizza">
+                    <img src="~/Images/CreateYourOwn.png"
+                         class="card-img-top"
+                         alt="Create Your Own Pizza"
+                         style="width:100%; height:auto;" />
+                </a>
+                <div class="card-body text-center">
+                    <h5 class="card-title">Create Your Own Pizza</h5>
+                    <p class="card-text">
+                        <span class="text-muted">From:</span> £10.00
+                    </p>
+                </div>
+            </div>
         </div>
-    }
-    else
-    {
-        <!-- Product Cards -->
-        <div class="row">
-            @foreach (var product in Model.Products)
-            {
-                <div class="col-md-4 mb-4">
-                    <div class="card shadow-sm">
-                        <!-- Link wrapped around the pizza image to navigate to the details page -->
-                        <a asp-page="/Pizzas/Details" asp-route-id="@product.Id">
-                            <img src="@product.ImageCover"
-                                 alt="@product.Name"
-                                 class="card-img-top"
-                                 style="width:100%; height:auto;" />
-                        </a>
+    </div>
 
-                        <div class="card-body text-center">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">
-                                <span class="text-muted">Price:</span> @product.Price.ToString("C")
-                            </p>
+    <!-- Section for Products -->
+    <div class="container">
+        <!-- Check if there are products -->
+        @if (Model.Products == null || !Model.Products.Any())
+        {
+            <div class="alert alert-info text-center" role="alert">
+                <strong>No products available!</strong> Check back later.
+            </div>
+        }
+        else
+        {
+            <!-- Product Cards -->
+            <div class="row">
+                @foreach (var product in Model.Products)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm">
+                            <!-- Link wrapped around the pizza image to navigate to the details page -->
+                            <a asp-page="/Pizzas/Details" asp-route-id="@product.Id">
+                                <img src="@product.ImageCover"
+                                     alt="@product.Name"
+                                     class="card-img-top"
+                                     style="width:100%; height:auto;" />
+                            </a>
 
-                            <!-- Add to Cart Button -->
-                            <form method="post" class="pizza-form">
-                                <input type="hidden" name="productId" value="@product.Id" />
-                                <input type="hidden" name="productName" value="@product.Name" />
-                                <input type="hidden" name="productPrice" value="@product.Price" />
+                            <div class="card-body text-center">
+                                <h5 class="card-title">@product.Name</h5>
+                                <p class="card-text">
+                                    <span class="text-muted">Price:</span> @product.Price.ToString("C")
+                                </p>
 
-                                <button type="submit" class="btn btn-success add-to-cart-btn">
-                                    Add To Cart
-                                </button>
-                            </form>
+                                <!-- Add to Cart Button -->
+                                <form method="post" class="pizza-form">
+                                    <input type="hidden" name="productId" value="@product.Id" />
+                                    <input type="hidden" name="productName" value="@product.Name" />
+                                    <input type="hidden" name="productPrice" value="@product.Price" />
+
+                                    <button type="submit" class="btn btn-success add-to-cart-btn">
+                                        Add To Cart
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
-    }
+                }
+            </div>
+        }
+    </div>
 </div>
-

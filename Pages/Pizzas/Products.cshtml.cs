@@ -21,5 +21,9 @@ namespace PizzaritoShop.Pages.Pizzas
             Products = await _productService.GetProductsAsync();
             return Page();
         }
+
+
+       
     }
 }
+

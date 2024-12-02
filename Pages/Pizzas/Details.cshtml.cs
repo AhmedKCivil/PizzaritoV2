@@ -1,41 +1,42 @@
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Mvc.RazorPages;
-//using PizzaritoShop.Data.Services;
-//using PizzaritoShop.Data.Services.Base;
-//using PizzaritoShop.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using PizzaritoShop.Data.Interfaces;
+using PizzaritoShop.Data.Services;
+using PizzaritoShop.Data.Services.Base;
+using PizzaritoShop.Model;
 
-//namespace PizzaritoShop.Pages.Pizzas
-//{
-//    public class DetailsModel : PageModel
-//    {
-//        private readonly IPizzasService _pizzasService;
+namespace PizzaritoShop.Pages.Pizzas
+{
+    public class DetailsModel : PageModel
+    {
+        private readonly IProductService _productService;
 
-//        public DetailsModel(IPizzasService pizzasService)
-//        {
-//            _pizzasService = pizzasService;
-//        }
+        public DetailsModel(IProductService productService)
+        {
+            _productService = productService;
+        }
 
-//        public PizzasModel PizzaDetail { get; set; } //Property to hold pizza details.
+        public Product Product { get; set; } //Property to hold product details.
 
-//        public async Task<IActionResult> OnGetAsync(int id)
-//        {
-//            PizzaDetail = await _pizzasService.GetByIdAsync(id);
+        public async Task<IActionResult> OnGetAsync(int id)
+        {
+            Product = await _productService.GetProductAsync(id);
 
-//            return PizzaDetail == null ? NotFound() : Page();
-//        }
+            return Product == null ? NotFound() : Page();
+        }
 
-//        public async Task<IActionResult> OnPostDeleteAsync(int id)
-//        {
-//            try
-//            {
-//                await _pizzasService.DeleteAsync(id);
-//                return RedirectToPage("/Pizzas/Pizzas"); 
-//            }
-//            catch (InvalidOperationException)
-//            {
-//                return NotFound();
-//            }
-//        }
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            try
+            {
+                await _productService.DeleteAsync(id);
+                return RedirectToPage("/Pizzas/Products");
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound();
+            }
+        }
 
-//    }
-//}
+    }
+}
