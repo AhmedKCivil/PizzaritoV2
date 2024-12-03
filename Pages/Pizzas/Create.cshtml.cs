@@ -25,7 +25,7 @@
 //        }
 //        public async Task<IActionResult> OnPostAsync()
 //        {
-//            if(!ModelState.IsValid)
+//            if (!ModelState.IsValid)
 //            {
 //                return Page();
 //            }
@@ -38,7 +38,7 @@
 //            return RedirectToPage("/Pizzas/Pizzas");
 //        }
 
-        
+
 
 //    }
 //}

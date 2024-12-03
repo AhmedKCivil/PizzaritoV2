@@ -1,18 +1,24 @@
 ﻿@page "{id:int}"
 @model PizzaritoShop.Pages.Pizzas.EditModel
 
-<h1>Edit Pizza</h1>
+<h1>Edit Product</h1>
 
 <!-- Display success message if available -->
 <div id="successMessage" style="display: none; color: green; font-weight: bold;">
     @TempData["SuccessMessage"]
 </div>
 
-<form id="editPizzaForm" method="post">
+<form method="post">
     <div class="form-group">
-        <label for="PizzaName">Pizza Name</label>
+        <label for="Name">Pizza Name</label>
         <input asp-for="ProductDetails.Name" class="form-control" />
         <span asp-validation-for="ProductDetails.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <textarea asp-for="ProductDetails.Description" class="form-control"></textarea>
+        <span asp-validation-for="ProductDetails.Description" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -22,12 +28,12 @@
     </div>
 
     <div class="form-group">
-        <label for="ImageTitle">Image URL</label>
+        <label for="ImageCover">Image URL</label>
         <input asp-for="ProductDetails.ImageCover" class="form-control" />
         <span asp-validation-for="ProductDetails.ImageCover" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary" id="saveButton">Save Changes</button>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
 </form>
 
@@ -42,7 +48,7 @@
 
                 setTimeout(function () {
                     window.location.href = 'https://localhost:7136/Pizzas/Products';
-                },);
+                }, 3000);
             }
         });
     </script>

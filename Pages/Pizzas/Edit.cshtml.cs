@@ -22,7 +22,7 @@ namespace PizzaritoShop.Pages.Pizzas
         [BindProperty]
         public Product ProductDetails { get; set; } //Property to hold pizza details.
 
-        public async Task<IActionResult> OnGetProductAsync(int id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             ProductDetails = await _productService.GetProductAsync(id);
 

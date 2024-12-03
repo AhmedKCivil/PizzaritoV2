@@ -22,8 +22,6 @@ namespace PizzaritoShop.Pages.Pizzas
             return Page();
         }
 
-
-       
     }
 }
 
